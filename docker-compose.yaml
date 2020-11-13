@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  hdfs:
+    build:
+      context: ./docker/hdfs
+      dockerfile: Dockerfile
+      args:
+        hdfs: ${HDFS}
+    networks:
+      - dev-nw
+    image: hdfs
+    ports:
+      - 9020:9020
+      - 50070:50070
+      - 50075:50075
+      - 8020:8020
+      - 8042:8042
+    container_name: hdfs-box
+    hostname: hdfs-box
+    stdin_open: true
+    tty: true
+  zk:
+    build:
+      context: ./docker/zk
+      dockerfile: Dockerfile
+      args:
+        zookeeper: ${ZOOKEEPER}
+    networks:
+      - dev-nw
+    image: zookeeper
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+    container_name: zk-box
+    hostname: zk-box
+  hive:
+    depends_on:
+      - hdfs
+      - zk
+    build:
+      context: ./docker/hive
+      dockerfile: Dockerfile
+      args:
+        hive: ${HIVE}
+    networks:
+      - dev-nw
+    container_name: hive-box
+    hostname: hive-box
+    stdin_open: true
+    image: hive
+    tty: true
+    ports:
+      - 10000:10000
+      - 9083:9083
+
+networks:
+  default:
+    external:
+      name: dev-nw
+  dev-nw:
+    driver: bridge
