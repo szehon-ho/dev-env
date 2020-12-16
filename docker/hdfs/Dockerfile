@@ -33,22 +33,25 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 # Download jars and set up directory
-RUN curl -s https://archive.apache.org/dist/hadoop/common/hadoop-${hdfs}/hadoop-${hdfs}.tar.gz \
+RUN curl -s http://people.apache.org/~hexiaoqiao/hadoop-3.2.2-RC2/hadoop-${hdfs}.tar.gz \
   | tar -xz -C /opt
 RUN cd /opt && ln -s ./hadoop-${hdfs} hadoop
 
 # Environment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV HADOOP_PREFIX /opt/hadoop
 ENV HADOOP_HOME /opt/hadoop
 ENV HADOOP_COMMON_HOME /opt/hadoop
 ENV HADOOP_HDFS_HOME /opt/hadoop
 ENV HADOOP_CONF_DIR /opt/hadoop/etc/hadoop
+ENV HDFS_NAMENODE_USER root
+ENV HDFS_DATANODE_USER root
+ENV HDFS_SECONDARYNAMENODE_USER root
 
 ENV PATH $HADOOP_HOME/bin:$PATH
 
 ADD etc/hdfs-site.xml $HADOOP_CONF_DIR
 ADD etc/core-site.xml $HADOOP_CONF_DIR
+ADD etc/hadoop-env.sh $HADOOP_CONF_DIR
 
 # SSH configuration
 ADD ssh_config /root/.ssh/config
@@ -79,4 +82,4 @@ WORKDIR /
 
 CMD ["/etc/bootstrap.sh"]
 
-EXPOSE 50010 50020 50070 50075 8020
+EXPOSE 9866 9867 9870 9864 8020
