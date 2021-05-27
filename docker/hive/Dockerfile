@@ -3,6 +3,7 @@ FROM hdfs
 USER root
 
 ARG hive
+ARG hive_schema_version
 
 RUN apt-get update && \
   apt-get install -y postgresql && \
@@ -52,7 +53,7 @@ RUN cd $HIVE_HOME/scripts/metastore/upgrade/postgres/ && \
   psql --command "CREATE USER hive WITH PASSWORD 'hive';" && \
   psql --command "ALTER USER hive WITH SUPERUSER;" && \
   psql --command "GRANT ALL PRIVILEGES ON DATABASE metastore TO hive;" && \
-  psql -U hive -d metastore --no-password -h localhost -f hive-schema-${hive}.postgres.sql
+  psql -U hive -d metastore --no-password -h localhost -f hive-schema-${hive_schema_version}.postgres.sql
 
 USER root
 
