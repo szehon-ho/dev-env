@@ -33,7 +33,7 @@ RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 # Download jars and set up directory
-RUN curl -s http://people.apache.org/~hexiaoqiao/hadoop-3.2.2-RC2/hadoop-${hdfs}.tar.gz \
+RUN curl -s https://archive.apache.org/dist/hadoop/common/hadoop-${hdfs}/hadoop-${hdfs}.tar.gz \
   | tar -xz -C /opt
 RUN cd /opt && ln -s ./hadoop-${hdfs} hadoop
 
