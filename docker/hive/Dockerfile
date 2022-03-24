@@ -16,7 +16,7 @@ RUN groupadd -r hive && \
   usermod -a -G hive hive
 
 # Download jars and set up directory
-RUN curl -s https://people.apache.org/~sunchao/apache-hive-${hive}-rc-0/apache-hive-${hive}-bin.tar.gz \
+RUN curl -s https://people.apache.org/~pvary/apache-hive-4.0.0-alpha-1-rc2/apache-hive-4.0.0-alpha-1-bin.tar.gz \
   | tar -xz -C /opt
 RUN cd /opt && ln -s ./apache-hive-${hive}-bin hive
 
