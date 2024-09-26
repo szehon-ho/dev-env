@@ -4,7 +4,6 @@ USER root
 
 ARG hdfs
 ARG DEBIAN_FRONTEND=noninteractive
-
 RUN apt-get update && apt-get install -y software-properties-common && \
   apt-get update && add-apt-repository ppa:openjdk-r/ppa && \
   apt-get update && apt-get install -y \
@@ -12,7 +11,6 @@ RUN apt-get update && apt-get install -y software-properties-common && \
   tar \
   iputils-ping \
   krb5-user \
-  libssl-dev:amd64 \
   openjdk-8-jdk \
   openssh-server \
   openssh-client \
@@ -61,7 +59,7 @@ RUN echo "UsePAM no" >> /etc/ssh/sshd_config
 RUN echo "Port 2122" >> /etc/ssh/sshd_config
 
 # Fix JAVA_HOME because of ssh
-RUN sed -i -e 's/^export JAVA_HOME=.*/JAVA_HOME=\/usr\/lib\/jvm\/java-8-openjdk-amd64/' \
+RUN sed -i -e 's/^export JAVA_HOME=.*/JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk-arm64/' \
   $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 
 # Start SSH server
